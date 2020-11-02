@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>세부 내용 페이지</title>
+</head>
+
+<body>
+    <h1> 포스트 내용</h1>
+
+    <br>
+    <input type="button" value="HOME" onclick="location.href ='/'" >
+
+    <h2>제목 : {{post.title}} </h2>
+    <h2>내용 : {{post.content}}</h2>
+
+    <a href="/board/">List</a>
+    <input type="button" value="목록 보기" onclick="location.href ='/board/index'" >
+
+    <br>
+    <a href="/board/{{post.pk}}/delete">Delete</a>
+    <input type="button" value="삭제하기" onclick="location.href ='/board/{{post.pk}}/delete'" >
+
+    <br>
+    <a href="/board/{{post.pk}}/edit">Update</a>
+    <input type="button" value="수정하기" onclick="location.href ='/board/{{post.pk}}/edit'" >
+</body>
+
+</html>

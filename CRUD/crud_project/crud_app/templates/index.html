@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>리스트 페이지</title>
+</head>
+
+<body>
+    <a href="/board/new/"> NEW - 새로운 글쓰기</a>
+    <ul>
+        {% for post in posts %}
+            <li>{{post.pk}} | <a href="/board/{{post.pk}}/"> {{post.title}}</a></li>
+        {% endfor %}
+    </ul>
+    <input type="button" value="HOME" onclick="location.href ='/'" >
+</body>
+
+</html>

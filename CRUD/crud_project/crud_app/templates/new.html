@@ -1,14 +1,24 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <title>new 화면</title>
 </head>
+
 <body>
-    <form action="/create/", method="get">
+    <form action="/board/create/", method="post">
+        <!-- CSRF 토큰이란 CSRF 공격에 대응을 하기 위한 방어 기법 중 하나임
+        보통 CSRF공격은 특정액션시 넘어가는 파라미터를 가지고 그 행위를 특정액션 이외에 자동으로 넘어가게 하는 기법
+        이것을 넘어가는 값 중에 랜덤으로 발행되는 키값을 넘기고 받게 해서 이 값이 일치하지 않으면 그 액션을 수행하지 않는 것이다.
+        CSRF token은 보안상의 목적으로 사용. token을 넣어줘야 token과 함께 create 페이지에 요청을 보냄
+        장고에서 csrf token을 가지고 피하식별 하듯이, 우리 사이트에서 보낸 요청이라는 것을 확실히 알 수 있게 됨
+        Post 메소드를 쓸 때는 반드시 csrf_token이 있어야함. --!>
+        {% csrf_token %}
         <input type="text", name="title">
         <input type="text", name="content">
         <input type="submit", value="Submit">
     </form>
 </body>
+
 </html>
