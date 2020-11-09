@@ -8,8 +8,8 @@
 
 <body>
     <h1>첫번째 페이지 입니다.</h1>
-    <input type="button" value="글 쓰기" onclick="location.href ='board/new'" >
-    <input type="button" value="목록 보기" onclick="location.href ='board/index'" >
+    <input type="button" value="글 쓰기" onclick="location.href ='{% url 'board:new' %}'" >
+    <input type="button" value="목록 보기" onclick="location.href ='{% url 'board:index' %}'" >
 </body>
 
 </html>

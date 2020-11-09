@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from .models import Post
+from .models import Post, Comment
 
 # POST는 내가 만든 모델 객체!!!!! 원래 있던거 아님
 # 메인 페이지
@@ -24,12 +24,14 @@ def create(requset):
     post.save()
     
     # post 방식은 html을 반환하지 않기 때문에 render(html을 반환하는)가 아닌 redirect(바로 특정 페이지로 리다이렉트)를 사용
-    return redirect(f'/board/{post.pk}')
+    return redirect('board:detail', post.pk)
 
 # 리스트 보여주는 페이지
 def index(request):
     posts = Post.objects.all()  # 모델 Post내 DB에 저장된 모든 값을 불러와(objects.all()) posts에 저장
+    # DB에서 가져온 값들을 posts에 저장하고 index.html의 posts에 전달해서 불러온다
     return render(request, 'index.html', {'posts': posts})
+
 
 # 세부 내용 보여주는 페이지
 def detail(request, post_id):
@@ -45,7 +47,7 @@ def delete(request, post_id):
     post = Post.objects.get(pk=post_id)
     post.delete()
 
-    return redirect('/board/index')
+    return redirect('board:index')
 
 # 수정 기능
 # 1. detail.html 에서 삭제 버튼을 누르면 /board/{{post.pk}}/edit 로 url 요청
@@ -67,4 +69,25 @@ def update(request, post_id):
     post.content = request.POST.get('content')
     post.save()
 
-    return redirect(f'/board/{post_id}/')
+    return redirect('board:detail', post.pk)
+
+# Comment 내용
+
+# 댓글 작성
+def comments_create(request, post_id):
+    post = Post.objects.get(pk=post_id) # 댓글 달 게시물에 대한 정보 가져옴
+    content = request.POST.get('content')   # 폼 태그에서 넘어온 댓글 내용 가져옴
+
+    # 댓글 생성 및 저장
+    comment = Comment(post=post, content=content)
+    comment.save()
+
+    # 댓글 생성 후 디테일 페이지로 리다이렉트
+    return redirect('board:detail', post.pk)
+
+# 댓글 삭제 기능
+def comments_delete(request, post_id, comment_id):
+    comment = Comment.objects.get(pk=comment_id)
+    comment.delete()
+
+    return redirect('board:detail', post_id)

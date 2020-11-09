@@ -15,16 +15,29 @@
     <h2>제목 : {{post.title}} </h2>
     <h2>내용 : {{post.content}}</h2>
 
-    <a href="/board/">List</a>
-    <input type="button" value="목록 보기" onclick="location.href ='/board/index'" >
+    <form action="{% url 'board:comments_create' post.pk %}", method="POST">
+        {% csrf_token %}
+        댓글: <input type="text" name="content"/>
+            <input type="submit"value="Submit"/>
+    </form>
+    <ul>
+        {% for comment in post.comment_set.all %}
+        <li> {{comment.content}}
+            <input type="button" value="삭제" onclick="location.href ='{% url 'board:comments_delete' post.pk comment.pk %}'" >
+        </li>
+        {% endfor %}
+    </ul>
+
+    <a href="{% url 'board:index' %}">List</a>
+    <input type="button" value="목록 보기" onclick="location.href ='{% url 'board:index' %}'" >
 
     <br>
-    <a href="/board/{{post.pk}}/delete">Delete</a>
-    <input type="button" value="삭제하기" onclick="location.href ='/board/{{post.pk}}/delete'" >
+    <a href="{% url 'board:delete' post.pk %}">Delete</a>
+    <input type="button" value="삭제하기" onclick="location.href ='{% url 'board:delete' post.pk %}'" >
 
     <br>
-    <a href="/board/{{post.pk}}/edit">Update</a>
-    <input type="button" value="수정하기" onclick="location.href ='/board/{{post.pk}}/edit'" >
+    <a href="{% url 'board:edit' post.pk %}">Update</a>
+    <input type="button" value="수정하기" onclick="location.href ='{% url 'board:edit' post.pk %}'" >
 </body>
 
 </html>
